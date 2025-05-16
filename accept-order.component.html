@@ -1,0 +1,17 @@
+<div *ngIf="pendingOrders.length === 0">
+  <p class="text-center text-muted">No pending orders found.</p>
+</div>
+
+<div class="row">
+  <div class="col-md-4 mb-4" *ngFor="let order of pendingOrders">
+    <div class="card">
+      <img [src]="'http://localhost:3000' + order.image" class="card-img-top" alt="Order Image" />
+      <div class="card-body">
+        <h5 class="card-title">{{ order.dishName }}</h5>
+        <p>{{ order.description }}</p>
+        <p><strong>Price:</strong> ₹{{ order.price }}</p>
+        <button class="btn btn-success" (click)="acceptOrder(order._id)">Accept Order</button>
+      </div>
+    </div>
+  </div>
+</div>
