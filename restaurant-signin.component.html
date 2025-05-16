@@ -1,0 +1,71 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Restaurant Sign-In</h2>
+  <form (ngSubmit)="onSignIn()" #signInForm="ngForm">
+
+    <!-- Restaurant Name -->
+    <div class="mb-3">
+      <label for="restaurantName" class="form-label">Restaurant Name</label>
+      <input
+        type="text"
+        id="restaurantName"
+        class="form-control"
+        [(ngModel)]="restaurant.restaurantName"
+        name="restaurantName"
+        required
+        #restaurantName="ngModel"
+      />
+      <div *ngIf="restaurantName.touched && !isRestaurantNameValid()" class="text-danger">
+        Restaurant Name must be at least 3 characters long.
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="mb-3">
+      <label for="mailId" class="form-label">Email</label>
+      <input type="email" id="mailId" class="form-control" [(ngModel)]="restaurant.mailId" 
+      name="mailId" required #mailId="ngModel" />
+      <div *ngIf="mailId.touched && !isEmailValid()" class="text-danger">
+        Email must be in the format `example@gmail.com` or `example@yahoo.com`.
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        type="password"
+        id="password"
+        class="form-control"
+        [(ngModel)]="restaurant.password"
+        name="password"
+        required
+        #password="ngModel"
+      />
+      <div *ngIf="password.touched && !isPasswordValid()" class="text-danger">
+        Password must be at least 8 characters long and include a capital letter, small letter, digit, and special character.
+      </div>
+    </div>
+
+    <!-- Captcha -->
+    <div class="mb-3">
+      <label for="captcha" class="form-label">Captcha</label>
+      <input type="text" id="captcha" class="form-control" [(ngModel)]="userCaptcha" name="captcha" required />
+      <span class="captcha-text">{{ captcha }}</span>
+      <button type="button" class="btn btn-secondary" (click)="generateCaptcha()">Refresh Captcha</button>
+      <div *ngIf="userCaptcha.length > 0 && !isCaptchaValid()" class="text-danger">
+        Invalid Captcha. Please enter the correct text.
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="text-danger mb-3">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary w-100" [disabled]="signInForm.invalid || !isPasswordValid() || !isCaptchaValid()">
+      Sign in
+    </button>
+
+  </form>
+</div>

@@ -1,0 +1,92 @@
+<div class="container mt-5">
+  <h2 class="text-center">Welcome to {{ restaurantName }}'s Page</h2>
+  <div class="text-end">
+    <button class="btn btn-danger" (click)="onSignOut()">Sign Out</button>
+  </div>
+
+  <div class="mt-4">
+    <h4>Restaurant Details</h4>
+    <p><strong>Name:</strong> {{ restaurantName }}</p>
+    <p><strong>Email:</strong> {{ mailId }}</p>
+  </div>
+
+  <!-- Add Dish Button -->
+  <div class="text-center mt-4">
+    <button class="btn btn-primary" (click)="toggleAddDishForm()">Add Dish</button>
+  </div>
+
+  <!-- Add Dish Form -->
+  <div *ngIf="showAddDishForm" class="mt-4">
+    <h4>Add Dish</h4>
+    <form (ngSubmit)="addDish()" enctype="multipart/form-data">
+      <!-- Dish Name -->
+      <div class="mb-3">
+        <input type="text" class="form-control" [(ngModel)]="newDish.dishName" name="dishName" placeholder="Dish Name" required />
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        <textarea class="form-control" [(ngModel)]="newDish.description" name="description" placeholder="Description" required></textarea>
+      </div>
+
+      <!-- Price -->
+      <div class="mb-3">
+        <input type="number" class="form-control" [(ngModel)]="newDish.price" name="price" placeholder="Price" required />
+      </div>
+
+     <div class="mb-3">
+  <label for="cuisine" class="form-label">Cuisine</label>
+  <select
+    id="cuisine"
+    class="form-control"
+    [(ngModel)]="newDish.cuisine"
+    name="cuisine"
+    required
+    #cuisine="ngModel"
+  >
+    <option value="" disabled selected>Select Cuisine</option>
+    <option value="Indian">Indian</option>
+    <option value="Chinese">Chinese</option>
+    <option value="Italian">Italian</option>
+    <option value="Mexican">Mexican</option>
+  </select>
+  <div *ngIf="cuisine.invalid && cuisine.touched" class="text-danger">
+    Please select a cuisine.
+  </div>
+</div>
+
+      <!-- Type -->
+      <div class="mb-3">
+        <input type="radio" value="Veg" [(ngModel)]="newDish.type" name="type" required /> Veg
+        <input type="radio" value="Non-Veg" [(ngModel)]="newDish.type" name="type" required /> Non-Veg
+      </div>
+
+      <!-- Image -->
+      <div class="mb-3">
+        <input type="file" class="form-control" (change)="onFileChange($event)" required />
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="btn btn-success">Add Dish</button>
+    </form>
+  </div>
+
+  <!-- Dish Cards -->
+  <div class="mt-5">
+    <h4>All Dishes</h4>
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let dish of dishes">
+        <div class="card">
+          <img [src]="'http://localhost:3000' + dish.image" class="card-img-top" alt="Dish Image" style="height: 200px; object-fit: cover;" />
+          <div class="card-body">
+            <h5 class="card-title">{{ dish.dishName }}</h5>
+            <p>{{ dish.description }}</p>
+            <p><strong>Price:</strong> ₹{{ dish.price }}</p>
+            <p><strong>Cuisine:</strong> {{ dish.cuisine }}</p>
+            <p><strong>Type:</strong> {{ dish.type }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
